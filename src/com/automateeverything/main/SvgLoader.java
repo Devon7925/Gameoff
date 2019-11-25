@@ -49,7 +49,6 @@ public class SvgLoader {
                 for (int j = 0; j <= i; j++) {
                     points.set(i, points.get(i).add(differences.get(j)));
                 }
-                points.set(i, points.get(i).multiply(0.104));
                 points.set(i, new Vector2(points.get(i).x,-points.get(i).y));
             }
             new Bayazit().decompose(points.toArray(new Vector2[0])).forEach(n -> {

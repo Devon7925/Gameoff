@@ -1,13 +1,14 @@
-<svg version="1.1" viewBox="0.0 0.0 960.0 720.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" width="10000cm" height="10000cm" viewBox="0.0 0.0 100.0 100.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
     <clipPath id="p.0">
-        <path d="m0 0l960.0 0l0 720.0l-960.0 0l0 -720.0z" clip-rule="nonzero" />
+        <path d="m0 0l100.0 0l0 100.0l-100.0 0l0 -100.0z" clip-rule="nonzero" />
     </clipPath>
     <g clip-path="url(#p.0)">
-        <path fill="#000000" fill-opacity="0.0" d="m0 0l960.0 0l0 720.0l-960.0 0z" fill-rule="evenodd" />
-        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m17.887138 199.75066l76.77165 -0.7454071l108.073494 -23.850388l136.39894 0l0 11.926498l-45.467194 0l0 11.923889l34.286102 34.286087l46.212585 0.7454071l0 -24.595795l11.923889 0.7454071l0.74542236 -23.104996l11.181091 0.7454071l0.74542236 -23.10498l32.049866 0.7427826l0.74539185 68.572174l44.719177 -1.4908142l0 -23.10498l171.42783 1.4908142l-0.74542236 137.14172l-631.30444 0.74542236z" fill-rule="evenodd" />
-        <path fill="#000000" fill-opacity="0.0" d="m477.7638 185.59055l169.19159 0l0 -78.26246l-168.4462 0z" fill-rule="evenodd" />
-        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m477.7638 185.59055l169.19159 0l0 -78.26246l-168.4462 0z" fill-rule="evenodd" />
-        <path fill="#000000" fill-opacity="0.0" d="m362.2362 129.69029l0 92.42256l-32.795258 -0.7454071l-9.690277 -11.181091l8.199463 -10.435699l25.341217 0l0.74539185 -68.56955z" fill-rule="evenodd" />
-        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m362.2362 129.69029l0 92.42256l-32.795258 -0.7454071l-9.690277 -11.181091l8.199463 -10.435699l25.341217 0l0.74539185 -68.56955z" fill-rule="evenodd" />
+        <path fill="#000000" fill-opacity="0.0" d="m0 0l100.0 0l0 100.0l-100.0 0z" fill-rule="evenodd" />
+        <path fill="#000000" fill-opacity="0.0" d="m0.19422573 7.9868765l6.632546 -0.06561661l9.335958 -2.0603676l11.784777 0l0 1.031496l-3.947506 0.17060375l0.020998001 0.8582678l2.9606285 2.963255l3.7690296 0.052493095l0.18635178 -1.4986877l1.2493439 0l-0.060367584 -2.1889763l0.8740158 -0.18635178l0.099739075 -2.1023622l2.900261 0.03937006l0.24934387 5.813648l3.5485573 0.0052490234l0 -1.99475l14.811024 0.1286087l-0.062992096 11.84777l-54.545933 0.06561661z" fill-rule="evenodd" />
+        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m0.19422573 7.9868765l6.632546 -0.06561661l9.335958 -2.0603676l11.784777 0l0 1.031496l-3.947506 0.17060375l0.020998001 0.8582678l2.9606285 2.963255l3.7690296 0.052493095l0.18635178 -1.4986877l1.2493439 0l-0.060367584 -2.1889763l0.8740158 -0.18635178l0.099739075 -2.1023622l2.900261 0.03937006l0.24934387 5.813648l3.5485573 0.0052490234l0 -1.99475l14.811024 0.1286087l-0.062992096 11.84777l-54.545933 0.06561661z" fill-rule="evenodd" />
+        <path fill="#000000" fill-opacity="0.0" d="m39.934093 6.761877l14.618153 0l0 -6.761877l-14.553749 0z" fill-rule="evenodd" />
+        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m39.934093 6.761877l14.618153 0l0 -6.761877l-14.553749 0z" fill-rule="evenodd" />
+        <path fill="#000000" fill-opacity="0.0" d="m29.95013 1.9317585l0 7.986877l-2.8346443 -0.06561661l-0.83727074 -0.96587944l0.70866203 -0.90026283l2.0761147 -0.17322826l0.17847824 -5.7532806z" fill-rule="evenodd" />
+        <path stroke="#000000" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m29.95013 1.9317585l0 7.986877l-2.8346443 -0.06561661l-0.83727074 -0.96587944l0.70866203 -0.90026283l2.0761147 -0.17322826l0.17847824 -5.7532806z" fill-rule="evenodd" />
     </g>
 </svg>

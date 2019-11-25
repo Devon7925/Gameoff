@@ -66,16 +66,16 @@ public class Main {
 		Globals.inputmap.put("orbit button", GLFW_MOUSE_BUTTON_3, InputType.MOUSE);
 		Globals.inputmap.put("left", GLFW_KEY_A, InputType.KEY);
 		Globals.inputmap.put("right", GLFW_KEY_D, InputType.KEY);
-		Convex shape = new Circle(1);
+		Convex shape = new Circle(0.25);
 		BodyFixture f = new BodyFixture(shape);
 		f.setDensity(1.2);
-		f.setFriction(0.6);
+		f.setFriction(600);
 		characterBody.addFixture(f);
 		characterBody.setLinearDamping(0.97);
 		characterBody.setMass(MassType.NORMAL);
-		characterBody.translate(30, -13.5);
+		characterBody.translate(0, 30);
 		Object3D character = new Object3D("ico.obj",
-				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 10, 0), characterBody);
+				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 30, 0), characterBody);
 		world.add(character);
 
 		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 0.6);
@@ -117,9 +117,9 @@ public class Main {
 		clock.update();
 		window.update();
 		if(Globals.inputmap.get("left", window))
-		characterBody.applyForce(new Vector2(-1,0));
+		characterBody.applyForce(new Vector2(-1./4,0));
 		if(Globals.inputmap.get("right", window))
-		characterBody.applyForce(new Vector2(1,0));
+		characterBody.applyForce(new Vector2(1./4,0));
 		player.update(window);
 		world.update();
 	}
