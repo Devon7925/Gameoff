@@ -3,6 +3,7 @@ package com.automateeverything.main;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
@@ -29,6 +30,7 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.joml.Vector2d;
@@ -52,6 +54,7 @@ public class Window {
     GLFWFramebufferSizeCallback fbCallback;
     
     Consumer<Window> onResize = (win)->{};
+    BiConsumer<Window, Integer> onKeyPress = (win, key)->{};
     public Vector2d scroll = new Vector2d();
     
     /**
@@ -99,6 +102,8 @@ public class Window {
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, true);
+                if(action == GLFW_PRESS)
+                    onKeyPress.accept(Window.this, key);
             }
         });
         glfwSetFramebufferSizeCallback(window, fbCallback = new GLFWFramebufferSizeCallback() {
@@ -126,6 +131,14 @@ public class Window {
     public void onResize(Consumer<Window> onResize){
         this.onResize = onResize;
         onResize.accept(this);
+    }
+
+    /**
+     * Set what to do when a key is pressed
+     * @param onKeyPress
+     */
+    public void onKeyPress(BiConsumer<Window, Integer> onKeyPress){
+        this.onKeyPress = onKeyPress;
     }
 
     /**

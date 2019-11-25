@@ -1,9 +1,10 @@
 package com.automateeverything.main;
 
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -18,6 +19,7 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import com.automateeverything.control.InputType;
 import com.automateeverything.control.Player;
@@ -32,7 +34,6 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Vector2;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -58,7 +59,9 @@ public class Main {
 		finish();
 	}
 
+	Object3D character;
 	Body characterBody = new Body();
+
 	void init() {
 		window = new Window(400, 300, "Test");
 
@@ -71,18 +74,19 @@ public class Main {
 		f.setDensity(1.2);
 		f.setFriction(600);
 		characterBody.addFixture(f);
-		characterBody.setLinearDamping(0.97);
+		characterBody.setLinearDamping(0.9);
 		characterBody.setMass(MassType.NORMAL);
 		characterBody.translate(0, 30);
-		Object3D character = new Object3D("ico.obj",
-				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 30, 0), characterBody);
+		character = new Object3D("ico.obj",
+				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 30, 0),
+				characterBody);
 		world.add(character);
 
-		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 0.6);
-		levelBody.setLinearDamping(0.97);
+		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 60);
 		levelBody.setMass(MassType.INFINITE);
 		Object3D level = new Object3D("level.obj",
-				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(), levelBody);
+				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
+				levelBody);
 		world.add(level);
 		player.addControl(new FollowControl(character));
 		player.addControl(new OrbitControl());
@@ -106,6 +110,11 @@ public class Main {
 			// Make the viewport always fill the whole window.
 			glViewport(0, 0, window.width, window.height);
 		});
+
+		window.onKeyPress((win, key) -> {
+			if (key == GLFW_KEY_W)
+				characterBody.applyForce(new Vector2(0, 100));
+		});
 	}
 
 	void loop() {
@@ -113,13 +122,29 @@ public class Main {
 		render();
 	}
 
+	ArrayList<Vector2> locs = new ArrayList<>();
+	ArrayList<Vector2> speeds = new ArrayList<>();
+
 	void update() {
 		clock.update();
 		window.update();
-		if(Globals.inputmap.get("left", window))
-		characterBody.applyForce(new Vector2(-1./4,0));
-		if(Globals.inputmap.get("right", window))
-		characterBody.applyForce(new Vector2(1./4,0));
+		if (Globals.inputmap.get("right", window))
+			characterBody.applyForce(new Vector2(1. / 4, 0));
+		if (Globals.inputmap.get("left", window) && speeds.size() > 1) {
+			characterBody.setMass(MassType.FIXED_LINEAR_VELOCITY);
+			character.getPos()
+					.add(new Vector3f(0, (float) -locs.get(locs.size() - 1).y, (float) locs.get(locs.size() - 1).x));
+			characterBody.shift(locs.get(locs.size() - 1).multiply(-1));
+			locs.remove(locs.size() - 1);
+			characterBody.setLinearVelocity(new Vector2(0, 0));
+			// characterBody.setLinearVelocity(speeds.get(speeds.size() - 1));
+			// speeds.remove(speeds.size() - 1);
+		} else {
+			characterBody.setMass(MassType.NORMAL);
+			characterBody.applyForce(new Vector2(0, 0));
+			locs.add(characterBody.getChangeInPosition());
+			speeds.add(characterBody.getLinearVelocity());
+		}
 		player.update(window);
 		world.update();
 	}
