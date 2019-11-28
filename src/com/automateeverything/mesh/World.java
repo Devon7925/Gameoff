@@ -17,7 +17,7 @@ public class World {
         super();
         objects = new ArrayList<>();
         physics = new org.dyn4j.dynamics.World();
-        physics.setGravity(new Vector2(0, -1));
+        physics.setGravity(new Vector2(0, -0.5));
     }
 
     public void add(Object3D toAdd) {

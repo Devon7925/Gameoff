@@ -71,18 +71,17 @@ public class Main {
 		Globals.inputmap.put("right", GLFW_KEY_D, InputType.KEY);
 		Convex shape = new Circle(0.25);
 		BodyFixture f = new BodyFixture(shape);
-		f.setDensity(1.2);
-		f.setFriction(600);
+		f.setDensity(5);
+		f.setFriction(1);
 		characterBody.addFixture(f);
-		characterBody.setLinearDamping(0.9);
-		characterBody.setMass(MassType.NORMAL);
+		characterBody.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		characterBody.translate(0, 30);
 		character = new Object3D("ico.obj",
 				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 30, 0),
 				characterBody);
 		world.add(character);
 
-		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 60);
+		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 0.06);
 		levelBody.setMass(MassType.INFINITE);
 		Object3D level = new Object3D("level.obj",
 				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
@@ -113,7 +112,12 @@ public class Main {
 
 		window.onKeyPress((win, key) -> {
 			if (key == GLFW_KEY_W)
-				characterBody.applyForce(new Vector2(0, 100));
+				characterBody.applyForce(new Vector2(0, 300));
+		});
+
+		window.onKeyRelease((win, key) -> {
+			if (key == GLFW_KEY_A)
+				characterBody.setLinearVelocity(speeds.get(speeds.size() - 1));
 		});
 	}
 
@@ -131,19 +135,18 @@ public class Main {
 		if (Globals.inputmap.get("right", window))
 			characterBody.applyForce(new Vector2(1. / 4, 0));
 		if (Globals.inputmap.get("left", window) && speeds.size() > 1) {
-			characterBody.setMass(MassType.FIXED_LINEAR_VELOCITY);
+			characterBody.setMass(MassType.INFINITE);
 			character.getPos()
 					.add(new Vector3f(0, (float) -locs.get(locs.size() - 1).y, (float) locs.get(locs.size() - 1).x));
 			characterBody.shift(locs.get(locs.size() - 1).multiply(-1));
 			locs.remove(locs.size() - 1);
 			characterBody.setLinearVelocity(new Vector2(0, 0));
-			// characterBody.setLinearVelocity(speeds.get(speeds.size() - 1));
-			// speeds.remove(speeds.size() - 1);
+			speeds.remove(speeds.size() - 1);
 		} else {
-			characterBody.setMass(MassType.NORMAL);
+			characterBody.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 			characterBody.applyForce(new Vector2(0, 0));
 			locs.add(characterBody.getChangeInPosition());
-			speeds.add(characterBody.getLinearVelocity());
+			speeds.add(characterBody.getLinearVelocity().copy());
 		}
 		player.update(window);
 		world.update();
