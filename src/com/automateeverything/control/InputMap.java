@@ -28,6 +28,10 @@ public class InputMap {
         }
     }
 
+    public int getID(String key){
+        return inputmap.get(key);
+    }
+
     public void put(String key, Integer value, InputType type) {
         inputmap.put(key, value);
         typemap.put(key, type);

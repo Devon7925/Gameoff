@@ -19,13 +19,16 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
+import com.automateeverything.control.Agent;
 import com.automateeverything.control.InputType;
 import com.automateeverything.control.Player;
-import com.automateeverything.control.systems.FollowControl;
-import com.automateeverything.control.systems.OrbitControl;
-import com.automateeverything.control.systems.ZoomControl;
+import com.automateeverything.control.systems.agent.Jump;
+import com.automateeverything.control.systems.agent.MoveRight;
+import com.automateeverything.control.systems.agent.ReverseTime;
+import com.automateeverything.control.systems.control.FollowControl;
+import com.automateeverything.control.systems.control.OrbitControl;
+import com.automateeverything.control.systems.control.ZoomControl;
 import com.automateeverything.mesh.Object3D;
 import com.automateeverything.mesh.World;
 
@@ -34,7 +37,6 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -49,6 +51,7 @@ public class Main {
 
 	Window window;
 	Player player = new Player();
+	Agent agent;
 	World world = new World();
 	Clock clock = new Clock();
 
@@ -59,16 +62,17 @@ public class Main {
 		finish();
 	}
 
-	Object3D character;
-	Body characterBody = new Body();
-
 	void init() {
 		window = new Window(400, 300, "Test");
 
 		Globals.inputmap.put("perp button", GLFW_MOUSE_BUTTON_2, InputType.MOUSE);
 		Globals.inputmap.put("orbit button", GLFW_MOUSE_BUTTON_3, InputType.MOUSE);
 		Globals.inputmap.put("left", GLFW_KEY_A, InputType.KEY);
+		Globals.inputmap.put("time", GLFW_KEY_A, InputType.KEY);
 		Globals.inputmap.put("right", GLFW_KEY_D, InputType.KEY);
+		Globals.inputmap.put("jump", GLFW_KEY_W, InputType.KEY);
+
+		Body characterBody = new Body();
 		Convex shape = new Circle(0.25);
 		BodyFixture f = new BodyFixture(shape);
 		f.setDensity(5);
@@ -76,12 +80,16 @@ public class Main {
 		characterBody.addFixture(f);
 		characterBody.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		characterBody.translate(0, 30);
-		character = new Object3D("ico.obj",
+		Object3D character = new Object3D("ico.obj",
 				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(0, 30, 0),
 				characterBody);
+		agent = new Agent(character);
+		agent.addControl(new MoveRight());
+		agent.addControl(new Jump(window, character));
+		agent.addControl(new ReverseTime(window, character));
 		world.add(character);
 
-		Body levelBody = SvgLoader.decompose("level.svg", 1.2, 0.06);
+		Body levelBody = SvgLoader.decompose("level.svg", 1.5, 0.06);
 		levelBody.setMass(MassType.INFINITE);
 		Object3D level = new Object3D("level.obj",
 				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
@@ -109,16 +117,6 @@ public class Main {
 			// Make the viewport always fill the whole window.
 			glViewport(0, 0, window.width, window.height);
 		});
-
-		window.onKeyPress((win, key) -> {
-			if (key == GLFW_KEY_W)
-				characterBody.applyForce(new Vector2(0, 300));
-		});
-
-		window.onKeyRelease((win, key) -> {
-			if (key == GLFW_KEY_A)
-				characterBody.setLinearVelocity(speeds.get(speeds.size() - 1));
-		});
 	}
 
 	void loop() {
@@ -126,28 +124,10 @@ public class Main {
 		render();
 	}
 
-	ArrayList<Vector2> locs = new ArrayList<>();
-	ArrayList<Vector2> speeds = new ArrayList<>();
-
 	void update() {
 		clock.update();
 		window.update();
-		if (Globals.inputmap.get("right", window))
-			characterBody.applyForce(new Vector2(1. / 4, 0));
-		if (Globals.inputmap.get("left", window) && speeds.size() > 1) {
-			characterBody.setMass(MassType.INFINITE);
-			character.getPos()
-					.add(new Vector3f(0, (float) -locs.get(locs.size() - 1).y, (float) locs.get(locs.size() - 1).x));
-			characterBody.shift(locs.get(locs.size() - 1).multiply(-1));
-			locs.remove(locs.size() - 1);
-			characterBody.setLinearVelocity(new Vector2(0, 0));
-			speeds.remove(speeds.size() - 1);
-		} else {
-			characterBody.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-			characterBody.applyForce(new Vector2(0, 0));
-			locs.add(characterBody.getChangeInPosition());
-			speeds.add(characterBody.getLinearVelocity().copy());
-		}
+		agent.update(window);
 		player.update(window);
 		world.update();
 	}

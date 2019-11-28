@@ -1,4 +1,4 @@
-package com.automateeverything.control.systems;
+package com.automateeverything.control.systems.control;
 
 import com.automateeverything.control.Player;
 import com.automateeverything.main.Window;

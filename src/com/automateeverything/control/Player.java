@@ -2,7 +2,7 @@ package com.automateeverything.control;
 
 import java.util.ArrayList;
 
-import com.automateeverything.control.systems.ControlSystem;
+import com.automateeverything.control.systems.control.ControlSystem;
 import com.automateeverything.main.Window;
 
 import org.joml.Matrix4f;
@@ -15,7 +15,7 @@ public class Player {
 
 	private Matrix4f viewMatrix = new Matrix4f();
     public Vector3f focus = new Vector3f();
-    public float angleX = 0;
+    public float angleX = (float) (Math.PI/2);
     public float angleY = 0;
     public float r = 1;
     private ArrayList<ControlSystem> controls = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Player {
     }
 
     public Vector3f getPos() {
-        return new Vector3f(0.0f, 0.0f, 10.0f * r).rotateX(-angleY/2).rotateY(angleX/2).add(focus);
+        return new Vector3f(0.0f, 0.0f, 10.0f * r).rotateX(-angleY).rotateY(angleX).add(focus);
     }
 
     public void addControl(ControlSystem control) {

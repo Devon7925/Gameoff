@@ -2,8 +2,8 @@ package com.automateeverything.main;
 
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
@@ -30,6 +30,7 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -55,10 +56,8 @@ public class Window {
 
     Consumer<Window> onResize = (win) -> {
     };
-    BiConsumer<Window, Integer> onKeyPress = (win, key) -> {
-    };
-    BiConsumer<Window, Integer> onKeyRelease = (win, key) -> {
-    };
+    ArrayList<BiConsumer<Window, Integer>> onKeyPress = new ArrayList<>();
+    ArrayList<BiConsumer<Window, Integer>> onKeyRelease = new ArrayList<>();
     public Vector2d scroll = new Vector2d();
 
     /**
@@ -108,9 +107,9 @@ public class Window {
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                     glfwSetWindowShouldClose(window, true);
                 if (action == GLFW_PRESS)
-                    onKeyPress.accept(Window.this, key);
+                    onKeyPress.forEach(n->n.accept(Window.this, key));
                 if (action == GLFW_RELEASE)
-                    onKeyRelease.accept(Window.this, key);
+                    onKeyRelease.forEach(n->n.accept(Window.this, key));
             }
         });
         glfwSetFramebufferSizeCallback(window, fbCallback = new GLFWFramebufferSizeCallback() {
@@ -147,7 +146,7 @@ public class Window {
      * @param onKeyPress
      */
     public void onKeyPress(BiConsumer<Window, Integer> onKeyPress) {
-        this.onKeyPress = onKeyPress;
+        this.onKeyPress.add(onKeyPress);
     }
 
     /**
@@ -156,7 +155,7 @@ public class Window {
      * @param onKeyRelease
      */
     public void onKeyRelease(BiConsumer<Window, Integer> onKeyRelease) {
-        this.onKeyRelease = onKeyRelease;
+        this.onKeyRelease.add(onKeyRelease);
     }
 
     /**
