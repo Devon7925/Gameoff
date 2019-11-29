@@ -13,16 +13,19 @@ import org.joml.Vector3f;
 public class Object3D extends Mesh{
     private Matrix4f modelViewMatrix;
     Vector3f pos;
+    Vector3f rot;
 	public Body collider;
 
     public Object3D(Vector3f[] verticies, Face[] faces, Vector3f pos, Body collider) {
         super(verticies, faces);
+        rot = new Vector3f();
         setPos(pos);
         this.collider = collider;
     }
-
+    
     public Object3D(String objPath, Shader shader, Vector3f pos, Body collider) {
         super(objPath, shader);
+        rot = new Vector3f();
         setPos(pos);
         this.collider = collider;
     }
@@ -33,15 +36,30 @@ public class Object3D extends Mesh{
 
     public void setPos(Vector3f pos){
         this.pos = pos;
-        modelViewMatrix = new Matrix4f().translate(pos);
+        updateMatrix();
     }
 
 	public Vector3f getPos() {
 		return pos;
 	}
 
+    public Vector3f getRot() {
+        return rot;
+    }
+
+    public void setRot(Vector3f rot) {
+        this.rot = rot;
+        updateMatrix();
+    }
+
 	public void update() {
         pos.add(0, (float) collider.getChangeInPosition().y, (float) -collider.getChangeInPosition().x);
+        rot.add((float) collider.getChangeInOrientation(), 0, 0);
+        updateMatrix();
+    }
+    
+    public void updateMatrix(){
         modelViewMatrix = new Matrix4f().translate(pos);
-	}
+        modelViewMatrix.rotateAffineXYZ(rot.x, rot.y, rot.z);
+    }
 }
