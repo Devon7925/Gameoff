@@ -23,7 +23,7 @@ import java.nio.FloatBuffer;
 import com.automateeverything.control.Agent;
 import com.automateeverything.control.InputType;
 import com.automateeverything.control.Player;
-import com.automateeverything.control.systems.agent.Jump;
+import com.automateeverything.control.systems.agent.BetterJump;
 import com.automateeverything.control.systems.agent.MoveRight;
 import com.automateeverything.control.systems.agent.ReverseTime;
 import com.automateeverything.control.systems.control.FollowControl;
@@ -85,7 +85,7 @@ public class Main {
 				characterBody);
 		agent = new Agent(character);
 		agent.addControl(new MoveRight());
-		agent.addControl(new Jump(window, character));
+		agent.addControl(new BetterJump(window, character));
 		agent.addControl(new ReverseTime(window, character));
 		world.add(character);
 

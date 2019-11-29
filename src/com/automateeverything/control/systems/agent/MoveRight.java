@@ -14,7 +14,7 @@ public class MoveRight implements AgentSystem {
     @Override
     public void run(Object3D agent, Window window) {
         if (Globals.inputmap.get("right", window))
-            agent.collider.applyForce(new Vector2(1. / 2, 0));
+            agent.collider.applyForce(new Vector2(1.5, 0));
     }
 
 }
