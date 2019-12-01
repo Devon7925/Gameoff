@@ -96,14 +96,8 @@ public class Main {
 		agent.addControl(new ReverseTime(window, character));
 		world.add(character);
 
-		// Body levelBody = 
 		ObjLoader.decompose("level.svg", "level.obj", materials).forEach(n -> world.add(n));
-		// dense = 1.5 fric = 0.06
-		// levelBody.setMass(MassType.INFINITE);
-		// Object3D level = new Object3D("level.obj",
-		// 		new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
-		// 		levelBody);
-		// world.add(level);
+
 		player.addControl(new FollowControl(character));
 		player.addControl(new OrbitControl());
 		player.addControl(new ZoomControl());

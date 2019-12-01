@@ -77,6 +77,7 @@ public class ObjLoader {
 
     private static Object3D finish(Body body, ArrayList<Vector3f> verticies, ArrayList<Face> faces) {
         Object3D obj = new Object3D(verticies.toArray(new Vector3f[0]), faces.toArray(new Face[0]), new Vector3f(), body);
+        obj.collider.setMass(obj.collider.getMass().getType());
         verticies.clear();
         faces.clear();
         return obj;
