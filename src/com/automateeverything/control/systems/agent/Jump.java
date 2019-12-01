@@ -1,5 +1,6 @@
 package com.automateeverything.control.systems.agent;
 
+import com.automateeverything.control.Agent;
 import com.automateeverything.main.Globals;
 import com.automateeverything.main.Window;
 import com.automateeverything.mesh.Object3D;
@@ -18,7 +19,7 @@ public class Jump implements AgentSystem {
     }
 
     @Override
-    public void run(Object3D agent, Window window) {
+    public void run(Agent agent, Window window) {
     }
     
 }

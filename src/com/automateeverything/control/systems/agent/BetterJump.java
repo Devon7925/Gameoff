@@ -1,5 +1,6 @@
 package com.automateeverything.control.systems.agent;
 
+import com.automateeverything.control.Agent;
 import com.automateeverything.main.Globals;
 import com.automateeverything.main.Window;
 import com.automateeverything.mesh.Object3D;
@@ -21,10 +22,9 @@ public class BetterJump implements AgentSystem {
     }
 
     @Override
-    public void run(Object3D agent, Window window) {
-        agent.collider.setGravityScale(fallMultiplier);
-        if (Globals.inputmap.get("jump", window) && agent.collider.getLinearVelocity().y > 0) {
-            agent.collider.setGravityScale(lowJumpMultiplier);
+    public void run(Agent agent, Window window) {
+        if (Globals.inputmap.get("jump", window) && agent.agent.collider.getLinearVelocity().y > 0) {
+            agent.gravityScale *= lowJumpMultiplier;
         }
     }
 

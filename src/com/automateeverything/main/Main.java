@@ -3,6 +3,7 @@ package com.automateeverything.main;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
@@ -26,6 +27,7 @@ import com.automateeverything.control.InputType;
 import com.automateeverything.control.Player;
 import com.automateeverything.control.systems.agent.BetterJump;
 import com.automateeverything.control.systems.agent.MoveRight;
+import com.automateeverything.control.systems.agent.Pound;
 import com.automateeverything.control.systems.agent.ReverseTime;
 import com.automateeverything.control.systems.control.FollowControl;
 import com.automateeverything.control.systems.control.OrbitControl;
@@ -76,6 +78,7 @@ public class Main {
 		Globals.inputmap.put("time", GLFW_KEY_A, InputType.KEY);
 		Globals.inputmap.put("right", GLFW_KEY_D, InputType.KEY);
 		Globals.inputmap.put("jump", GLFW_KEY_W, InputType.KEY);
+		Globals.inputmap.put("pound", GLFW_KEY_S, InputType.KEY);
 
 		materials = MaterialLoader.decompose("materials.mtls");
 
@@ -92,6 +95,7 @@ public class Main {
 				characterBody);
 		agent = new Agent(character);
 		agent.addControl(new MoveRight());
+		agent.addControl(new Pound(window, character));
 		agent.addControl(new BetterJump(window, character));
 		agent.addControl(new ReverseTime(window, character));
 		world.add(character);

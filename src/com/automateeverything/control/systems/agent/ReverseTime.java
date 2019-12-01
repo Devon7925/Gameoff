@@ -2,6 +2,7 @@ package com.automateeverything.control.systems.agent;
 
 import java.util.ArrayList;
 
+import com.automateeverything.control.Agent;
 import com.automateeverything.main.Globals;
 import com.automateeverything.main.Window;
 import com.automateeverything.mesh.Object3D;
@@ -28,11 +29,11 @@ public class ReverseTime implements AgentSystem {
   }
 
   @Override
-  public void run(Object3D agent, Window window) {
-    locs.add(agent.collider.getChangeInPosition().copy());
-    speeds.add(agent.collider.getLinearVelocity().copy());
-    undoStep(agent, window);
-    undoStep(agent, window);
+  public void run(Agent agent, Window window) {
+    locs.add(agent.agent.collider.getChangeInPosition().copy());
+    speeds.add(agent.agent.collider.getLinearVelocity().copy());
+    undoStep(agent.agent, window);
+    undoStep(agent.agent, window);
   }
 
   private void undoStep(Object3D agent, Window window) {

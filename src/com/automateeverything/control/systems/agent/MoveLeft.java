@@ -1,8 +1,8 @@
 package com.automateeverything.control.systems.agent;
 
+import com.automateeverything.control.Agent;
 import com.automateeverything.main.Globals;
 import com.automateeverything.main.Window;
-import com.automateeverything.mesh.Object3D;
 
 import org.dyn4j.geometry.Vector2;
 
@@ -12,9 +12,9 @@ import org.dyn4j.geometry.Vector2;
 public class MoveLeft implements AgentSystem {
 
   @Override
-  public void run(Object3D agent, Window window) {
+  public void run(Agent agent, Window window) {
     if (Globals.inputmap.get("left", window))
-      agent.collider.applyForce(new Vector2(-1.5, 0));
+      agent.agent.collider.applyForce(new Vector2(-1.5, 0));
   }
 
 }
