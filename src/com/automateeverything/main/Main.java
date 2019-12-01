@@ -19,6 +19,7 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import java.nio.FloatBuffer;
+import java.util.HashMap;
 
 import com.automateeverything.control.Agent;
 import com.automateeverything.control.InputType;
@@ -29,6 +30,9 @@ import com.automateeverything.control.systems.agent.ReverseTime;
 import com.automateeverything.control.systems.control.FollowControl;
 import com.automateeverything.control.systems.control.OrbitControl;
 import com.automateeverything.control.systems.control.ZoomControl;
+import com.automateeverything.loaders.MaterialLoader;
+import com.automateeverything.loaders.ObjLoader;
+import com.automateeverything.loaders.SvgLoader;
 import com.automateeverything.mesh.Object3D;
 import com.automateeverything.mesh.World;
 
@@ -54,6 +58,7 @@ public class Main {
 	Agent agent;
 	World world = new World();
 	Clock clock = new Clock();
+	HashMap<Integer, Material> materials;
 
 	void run() {
 		init();
@@ -72,6 +77,8 @@ public class Main {
 		Globals.inputmap.put("right", GLFW_KEY_D, InputType.KEY);
 		Globals.inputmap.put("jump", GLFW_KEY_W, InputType.KEY);
 
+		materials = MaterialLoader.decompose("materials.mtls");
+
 		Body characterBody = new Body();
 		Convex shape = new Circle(0.25);
 		BodyFixture f = new BodyFixture(shape);
@@ -89,12 +96,14 @@ public class Main {
 		agent.addControl(new ReverseTime(window, character));
 		world.add(character);
 
-		Body levelBody = SvgLoader.decompose("level.svg", 1.5, 0.06);
-		levelBody.setMass(MassType.INFINITE);
-		Object3D level = new Object3D("level.obj",
-				new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
-				levelBody);
-		world.add(level);
+		// Body levelBody = 
+		ObjLoader.decompose("level.svg", "level.obj", materials).forEach(n -> world.add(n));
+		// dense = 1.5 fric = 0.06
+		// levelBody.setMass(MassType.INFINITE);
+		// Object3D level = new Object3D("level.obj",
+		// 		new Shader("resources/shaders/screen.vert", "resources/shaders/screen.frag"), new Vector3f(),
+		// 		levelBody);
+		// world.add(level);
 		player.addControl(new FollowControl(character));
 		player.addControl(new OrbitControl());
 		player.addControl(new ZoomControl());
