@@ -2,8 +2,8 @@ package com.automateeverything.main;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
@@ -34,7 +34,6 @@ import com.automateeverything.control.systems.control.OrbitControl;
 import com.automateeverything.control.systems.control.ZoomControl;
 import com.automateeverything.loaders.MaterialLoader;
 import com.automateeverything.loaders.ObjLoader;
-import com.automateeverything.loaders.SvgLoader;
 import com.automateeverything.mesh.Object3D;
 import com.automateeverything.mesh.World;
 
@@ -58,6 +57,7 @@ public class Main {
 	Window window;
 	Player player = new Player();
 	Agent agent;
+	Speaker speaker;
 	World world = new World();
 	Clock clock = new Clock();
 	HashMap<Integer, Material> materials;
@@ -124,6 +124,9 @@ public class Main {
 			// Make the viewport always fill the whole window.
 			glViewport(0, 0, window.width, window.height);
 		});
+
+		speaker = new Speaker();
+		speaker.play("Song_1.ogg");
 	}
 
 	void loop() {
@@ -150,6 +153,7 @@ public class Main {
 
 	void finish() {
 		window.clean();
+		speaker.finish();
 	}
 
 	public static void main(String[] args) {

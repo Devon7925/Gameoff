@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.automateeverything.main.Material;
-import com.automateeverything.main.Shader;
 import com.automateeverything.mesh.Face;
 import com.automateeverything.mesh.Object3D;
 
