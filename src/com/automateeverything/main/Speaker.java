@@ -53,6 +53,7 @@ public class Speaker {
 
         ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
         ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+        if(!alCapabilities.OpenAL10) throw new InternalError("OpenAL is not proper version");
     }
 
     public void play(String sound) {

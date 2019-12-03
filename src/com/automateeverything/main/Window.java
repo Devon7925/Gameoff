@@ -40,6 +40,7 @@ import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWScrollCallbackI;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 
 /**
  * Class for managing a window
@@ -47,8 +48,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 public class Window {
 
     public long window;
-    int width;
-    int height;
+    public int width;
+    public int height;
 
     GLFWErrorCallback errorCallback;
     GLFWKeyCallback keyCallback;
@@ -95,6 +96,8 @@ public class Window {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
         glfwShowWindow(window);
+        
+		GL.createCapabilities();
     }
 
     /**

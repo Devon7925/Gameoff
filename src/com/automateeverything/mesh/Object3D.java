@@ -4,6 +4,7 @@ import com.automateeverything.control.Player;
 import com.automateeverything.main.Shader;
 
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Transform;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -53,8 +54,9 @@ public class Object3D extends Mesh{
     }
 
 	public void update() {
-        pos.add(0, (float) collider.getChangeInPosition().y, (float) -collider.getChangeInPosition().x);
-        rot.add((float) collider.getChangeInOrientation(), 0, 0);
+        Transform trans = collider.getTransform();
+        pos.set(0, (float) trans.getTranslationY(), (float) -trans.getTranslationX());
+        rot.set((float) trans.getRotation(), 0, 0);
         updateMatrix();
     }
     

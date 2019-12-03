@@ -18,14 +18,14 @@ import org.joml.Vector3f;
  * ObjLoader
  */
 public class ObjLoader {
-    public static ArrayList<Object3D> decompose(String svg, String objPath, HashMap<Integer, Material> materials) {
-        HashMap<String, Body> collideMap = SvgLoader.decompose(svg, materials);
+    public static ArrayList<Object3D> decompose(String path, HashMap<Integer, Material> materials) {
+        HashMap<String, Body> collideMap = SvgLoader.decompose(path+".svg", materials);
         ArrayList<Object3D> objs = new ArrayList<>();
         String name = null;
         ArrayList<Vector3f> verticies = new ArrayList<>();
         ArrayList<Face> faces = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(objPath)));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path+".obj")));
             String line;
 
             int pointTotal = 0;
